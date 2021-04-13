@@ -1,194 +1,196 @@
 <template>
-    <v-container>
-        <Error v-if="$fetchState.error" :error="$fetchState.error" />
+    <v-container fluid :pa-0="$vuetify.breakpoint.xsOnly">
+        <v-row justify="center">
+            <Error v-if="$fetchState.error" :error="$fetchState.error" />
 
-        <v-skeleton-loader v-else-if="loading('port') || data == null" type="card-heading, image" width="100%" max-width="960px" />
-        <v-card v-else width="100%" max-width="960px">
-            <v-card-title>
-                <v-tooltip bottom>
-                    <template #activator="{on}">
-                        <v-icon style="padding-right: 10px" v-on="on">
-                            {{ icons.mdiEthernet }}
-                        </v-icon>
-                    </template>
-                    <span>Port</span>
-                </v-tooltip>
-                <NuxtLink :to="`/system/${data.system.id}`" style="padding-right: 10px">
-                    {{ data.system.name }}
-                </NuxtLink>
-                {{ data.name }}
-                <v-spacer />
-                <v-btn text icon color="accent" @click="$fetch">
-                    <v-icon>{{ icons.mdiRefresh }}</v-icon>
-                </v-btn>
-            </v-card-title>
-            <v-card-subtitle v-if="data.mac_address || data.description">
-                <span v-if="data.description">{{ data.description }}</span>
-                <br>
-                <NuxtLink v-if="data.mac_address" :to="`/mac_address/${data.mac_address.id}`" style="padding-right: 10px">
-                    {{ data.mac_address.mac_address }}
-                </NuxtLink>
-                <span v-if="data.mac_address.vendor">(
-                    <NuxtLink :to="`/vendor/${data.mac_address.vendor.vendor.prefix}`">
-                        {{ data.mac_address.vendor.vendor.name }}
+            <v-skeleton-loader v-else-if="loading('port') || data == null" type="card-heading, image" width="100%" max-width="960px" />
+            <v-card v-else class="mx-auto" width="100%" max-width="960px">
+                <v-card-title>
+                    <v-tooltip bottom>
+                        <template #activator="{on}">
+                            <v-icon style="padding-right: 10px" v-on="on">
+                                {{ icons.mdiEthernet }}
+                            </v-icon>
+                        </template>
+                        <span>Port</span>
+                    </v-tooltip>
+                    <NuxtLink :to="`/system/${data.system.id}`" style="padding-right: 10px">
+                        {{ data.system.name }}
                     </NuxtLink>
-                    )</span>
-            </v-card-subtitle>
+                    {{ data.name }}
+                    <v-spacer />
+                    <v-btn text icon color="accent" @click="$fetch">
+                        <v-icon>{{ icons.mdiRefresh }}</v-icon>
+                    </v-btn>
+                </v-card-title>
+                <v-card-subtitle v-if="data.mac_address || data.description">
+                    <span v-if="data.description">{{ data.description }}</span>
+                    <br>
+                    <NuxtLink v-if="data.mac_address" :to="`/mac_address/${data.mac_address.id}`" style="padding-right: 10px">
+                        {{ data.mac_address.mac_address }}
+                    </NuxtLink>
+                    <span v-if="data.mac_address.vendor">(
+                        <NuxtLink :to="`/vendor/${data.mac_address.vendor.vendor.prefix}`">
+                            {{ data.mac_address.vendor.vendor.name }}
+                        </NuxtLink>
+                        )</span>
+                </v-card-subtitle>
 
-            <v-card-text>
-                <v-row>
-                    <v-col v-if="data.mac_address_journals.length > 0" cols="12" sm="6">
-                        <v-card>
-                            <v-card-title>
-                                MAC Addresses
-                                <v-spacer />
-                                <v-text-field
-                                    v-model="mac_address_query"
-                                    :prepend-icon="icons.mdiMagnify"
-                                    label="Filter"
-                                    single-line
-                                    dense
-                                    clearable
-                                    hide-details
-                                    @keydown.esc="mac_address_query = ''"
-                                />
-                            </v-card-title>
-                            <v-card-text>
-                                <v-data-table
-                                    :items="data.mac_address_journals"
-                                    :headers="mac_address_headers"
-                                    :search="mac_address_query"
-                                    sort-by="journal.time"
-                                    :sort-desc="true"
-                                    :must-sort="true"
-                                    :mobile-breakpoint="0"
-                                >
-                                    <template #[`item.mac_address.mac_address`]="{item}">
-                                        <NuxtLink :to="`/mac_address/${item.mac_address.id}`">
-                                            {{ item.mac_address.mac_address }}
-                                        </NuxtLink>
-                                    </template>
+                <v-card-text>
+                    <v-row>
+                        <v-col v-if="data.mac_address_journals.length > 0" cols="12" sm="6">
+                            <v-card>
+                                <v-card-title>
+                                    MAC Addresses
+                                    <v-spacer />
+                                    <v-text-field
+                                        v-model="mac_address_query"
+                                        :prepend-icon="icons.mdiMagnify"
+                                        label="Filter"
+                                        single-line
+                                        dense
+                                        clearable
+                                        hide-details
+                                        @keydown.esc="mac_address_query = ''"
+                                    />
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-data-table
+                                        :items="data.mac_address_journals"
+                                        :headers="mac_address_headers"
+                                        :search="mac_address_query"
+                                        sort-by="journal.time"
+                                        :sort-desc="true"
+                                        :must-sort="true"
+                                        :mobile-breakpoint="0"
+                                    >
+                                        <template #[`item.mac_address.mac_address`]="{item}">
+                                            <NuxtLink :to="`/mac_address/${item.mac_address.id}`">
+                                                {{ item.mac_address.mac_address }}
+                                            </NuxtLink>
+                                        </template>
 
-                                    <template #[`item.journal.time`]="{item}">
-                                        <v-tooltip v-if="item.journal" bottom>
-                                            <template #activator="{on}">
-                                                <span v-on="on">{{ item.journal.time | distance }}</span>
-                                            </template>
-                                            <span>{{ item.journal.time | formatted }}</span>
-                                        </v-tooltip>
-                                    </template>
-                                </v-data-table>
-                            </v-card-text>
-                        </v-card>
-                    </v-col>
+                                        <template #[`item.journal.time`]="{item}">
+                                            <v-tooltip v-if="item.journal" bottom>
+                                                <template #activator="{on}">
+                                                    <span v-on="on">{{ item.journal.time | distance }}</span>
+                                                </template>
+                                                <span>{{ item.journal.time | formatted }}</span>
+                                            </v-tooltip>
+                                        </template>
+                                    </v-data-table>
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
 
-                    <v-col v-if="data.journals.length > 0" cols="12" sm="6">
-                        <v-card>
-                            <v-card-title>
-                                Port Status
-                                <v-spacer />
-                                <v-text-field
-                                    v-model="status_query"
-                                    :prepend-icon="icons.mdiMagnify"
-                                    label="Filter"
-                                    single-line
-                                    dense
-                                    clearable
-                                    hide-details
-                                    @keydown.esc="status_query = ''"
-                                />
-                            </v-card-title>
-                            <v-card-text>
-                                <v-data-table
-                                    :items="data.journals"
-                                    :headers="status_headers"
-                                    :search="status_query"
-                                    sort-by="journal.time"
-                                    :sort-desc="true"
-                                    :must-sort="true"
-                                    :mobile-breakpoint="0"
-                                >
-                                    <template #[`item.status`]="{item}">
-                                        {{ item.status }}
-                                    </template>
+                        <v-col v-if="data.journals.length > 0" cols="12" sm="6">
+                            <v-card>
+                                <v-card-title>
+                                    Port Status
+                                    <v-spacer />
+                                    <v-text-field
+                                        v-model="status_query"
+                                        :prepend-icon="icons.mdiMagnify"
+                                        label="Filter"
+                                        single-line
+                                        dense
+                                        clearable
+                                        hide-details
+                                        @keydown.esc="status_query = ''"
+                                    />
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-data-table
+                                        :items="data.journals"
+                                        :headers="status_headers"
+                                        :search="status_query"
+                                        sort-by="journal.time"
+                                        :sort-desc="true"
+                                        :must-sort="true"
+                                        :mobile-breakpoint="0"
+                                    >
+                                        <template #[`item.status`]="{item}">
+                                            {{ item.status }}
+                                        </template>
 
-                                    <template #[`item.speed`]="{item}">
-                                        {{ item.speed | formatSpeed }}
-                                    </template>
+                                        <template #[`item.speed`]="{item}">
+                                            {{ item.speed | formatSpeed }}
+                                        </template>
 
-                                    <template #[`item.journal.time`]="{item}">
-                                        <v-tooltip v-if="item.journal" bottom>
-                                            <template #activator="{on}">
-                                                <span v-on="on">{{ item.journal.time | distance }}</span>
-                                            </template>
-                                            <span>{{ item.journal.time | formatted }}</span>
-                                        </v-tooltip>
-                                    </template>
-                                </v-data-table>
-                            </v-card-text>
-                        </v-card>
-                    </v-col>
-                </v-row>
+                                        <template #[`item.journal.time`]="{item}">
+                                            <v-tooltip v-if="item.journal" bottom>
+                                                <template #activator="{on}">
+                                                    <span v-on="on">{{ item.journal.time | distance }}</span>
+                                                </template>
+                                                <span>{{ item.journal.time | formatted }}</span>
+                                            </v-tooltip>
+                                        </template>
+                                    </v-data-table>
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
+                    </v-row>
 
-                <v-row>
-                    <v-col v-if="neighbors.length > 0">
-                        <v-card>
-                            <v-card-title>
-                                LLDP Neighbors
-                                <v-spacer />
-                                <v-text-field
-                                    v-model="lldp_query"
-                                    :prepend-icon="icons.mdiMagnify"
-                                    label="Filter"
-                                    single-line
-                                    dense
-                                    clearable
-                                    hide-details
-                                    @keydown.esc="lldp_query = ''"
-                                />
-                            </v-card-title>
-                            <v-card-text>
-                                <v-data-table
-                                    :items="neighbors"
-                                    :headers="lldp_headers"
-                                    :search="lldp_query"
-                                    :sort-desc="true"
-                                    :must-sort="true"
-                                    sort-by=".journal.time"
-                                >
-                                    <template #[`item.system.name`]="{item}">
-                                        <NuxtLink :to="`/system/${item.system.id}`">
-                                            {{ item.system.name }}
-                                        </NuxtLink>
-                                    </template>
+                    <v-row>
+                        <v-col v-if="neighbors.length > 0">
+                            <v-card>
+                                <v-card-title>
+                                    LLDP Neighbors
+                                    <v-spacer />
+                                    <v-text-field
+                                        v-model="lldp_query"
+                                        :prepend-icon="icons.mdiMagnify"
+                                        label="Filter"
+                                        single-line
+                                        dense
+                                        clearable
+                                        hide-details
+                                        @keydown.esc="lldp_query = ''"
+                                    />
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-data-table
+                                        :items="neighbors"
+                                        :headers="lldp_headers"
+                                        :search="lldp_query"
+                                        :sort-desc="true"
+                                        :must-sort="true"
+                                        sort-by=".journal.time"
+                                    >
+                                        <template #[`item.system.name`]="{item}">
+                                            <NuxtLink :to="`/system/${item.system.id}`">
+                                                {{ item.system.name }}
+                                            </NuxtLink>
+                                        </template>
 
-                                    <template #[`item.name`]="{item}">
-                                        <NuxtLink :to="`/port/${item.id}`">
-                                            {{ item.name }}
-                                        </NuxtLink>
-                                    </template>
+                                        <template #[`item.name`]="{item}">
+                                            <NuxtLink :to="`/port/${item.id}`">
+                                                {{ item.name }}
+                                            </NuxtLink>
+                                        </template>
 
-                                    <template #[`item.mac_address.mac_address`]="{item}">
-                                        <NuxtLink :to="`/mac_address/${item.mac_address.id}`">
-                                            {{ item.mac_address.mac_address }}
-                                        </NuxtLink>
-                                    </template>
+                                        <template #[`item.mac_address.mac_address`]="{item}">
+                                            <NuxtLink :to="`/mac_address/${item.mac_address.id}`">
+                                                {{ item.mac_address.mac_address }}
+                                            </NuxtLink>
+                                        </template>
 
-                                    <template #[`item.journal.time`]="{item}">
-                                        <v-tooltip v-if="item.journal" bottom>
-                                            <template #activator="{on}">
-                                                <span v-on="on">{{ item.journal.time | distance }}</span>
-                                            </template>
-                                            <span>{{ item.journal.time | formatted }}</span>
-                                        </v-tooltip>
-                                    </template>
-                                </v-data-table>
-                            </v-card-text>
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </v-card-text>
-        </v-card>
+                                        <template #[`item.journal.time`]="{item}">
+                                            <v-tooltip v-if="item.journal" bottom>
+                                                <template #activator="{on}">
+                                                    <span v-on="on">{{ item.journal.time | distance }}</span>
+                                                </template>
+                                                <span>{{ item.journal.time | formatted }}</span>
+                                            </v-tooltip>
+                                        </template>
+                                    </v-data-table>
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+            </v-card>
+        </v-row>
     </v-container>
 </template>
 
