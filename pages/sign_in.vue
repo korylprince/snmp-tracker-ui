@@ -22,7 +22,7 @@
                         <v-text-field
                             v-model="password"
                             :type="show_password ? 'text' : 'password'"
-                            :append-icon="show_password ? '{{icons.mdiEye}}' : '{{icons.mdiEyeOff}}'"
+                            :append-icon="show_password ? icons.mdiEye : icons.mdiEyeOff"
                             label="Password"
                             :error-messages="errors"
                             required
