@@ -33,8 +33,8 @@ export const getters = {
         }
         return state.end_date
     },
-    dates(_, {start_date, end_date}) {
-        return {start_date, end_date}
+    dates(_, {start_date, end_date_full}) {
+        return {start_date, end_date: end_date_full}
     },
 }
 
