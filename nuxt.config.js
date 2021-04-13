@@ -66,10 +66,11 @@ export default {
         transpile: ["vee-validate/dist/rules"],
     },
 
-    env: {
+    publicRuntimeConfig: {
         authPrefixURL: process.env.AUTH_PREFIX_URL || "http://localhost:3000/api/1.0",
         gqlURL: process.env.GRAPHQL_URL || "http://localhost:3000/v1/graphql",
     },
+
     proxy: {
         ...(process.env.PROXY_BASE != null) && {
             "/api": process.env.PROXY_BASE,

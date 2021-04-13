@@ -54,7 +54,7 @@ export const mutations = {
 
 export const actions = {
     async sign_in({commit}, {username, password}) {
-        const response = await fetch(`${process.env.authPrefixURL}/auth`, {
+        const response = await fetch(`${this.$config.authPrefixURL}/auth`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export const actions = {
         return "/sign_in"
     },
     async ping({getters, dispatch}) {
-        const response = await fetch(`${process.env.authPrefixURL}/webhook`, {
+        const response = await fetch(`${this.$config.authPrefixURL}/webhook`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

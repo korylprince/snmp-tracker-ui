@@ -1,5 +1,6 @@
 const graphql = {
     store: null,
+    gqlURL: null,
 
     async query(query, vars, include_dates = true) {
         const dates = this.store.getters["date/dates"]
@@ -10,7 +11,7 @@ const graphql = {
             variables = vars
         }
 
-        const response = await fetch(process.env.gqlURL, {
+        const response = await fetch(this.gqlURL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -371,7 +372,8 @@ const graphql = {
     },
 }
 
-export default ({store}, inject) => {
+export default ({store, $config}, inject) => {
     graphql.store = store
+    graphql.gqlURL = $config.gqlURL
     inject("graphql", graphql)
 }
