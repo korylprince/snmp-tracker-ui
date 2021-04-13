@@ -70,8 +70,8 @@ export default {
         authPrefixURL: process.env.AUTH_PREFIX_URL || "http://localhost:3000/api/1.0",
         gqlURL: process.env.GRAPHQL_URL || "http://localhost:3000/v1/graphql",
     },
-    ...process.env.PROXY_BASE !== "" && {
-        proxy: {
+    proxy: {
+        ...(process.env.PROXY_BASE != null) && {
             "/api": process.env.PROXY_BASE,
             "/v1/graphql": process.env.PROXY_BASE,
         },
