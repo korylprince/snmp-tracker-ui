@@ -16,6 +16,13 @@ export default {
         },
     },
 
+    pwa: {
+        manifest: {
+            name: "SNMP Tracker",
+            short_name: "SNMP Tracker",
+        },
+    },
+
     css: [
         "~/assets/main.sass",
     ],
