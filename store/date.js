@@ -1,4 +1,4 @@
-import {format, sub} from "date-fns"
+import {format, sub, parse} from "date-fns"
 
 export const state = () => ({
     start_date: null,
@@ -27,14 +27,11 @@ export const getters = {
         }
         return state.end_date
     },
-    end_date_full(state) {
-        if (state.end_date == null) {
-            return format(new Date(), "yyyy-MM-dd 23:59:59")
+    dates(_, {start_date, end_date}) {
+        return {
+            start_date: (parse(`${start_date} 00:00:00`, "yyyy-MM-dd HH:mm:ss", new Date())).toISOString(),
+            end_date: (parse(`${end_date} 23:59:59.999`, "yyyy-MM-dd HH:mm:ss.SSS", new Date())).toISOString(),
         }
-        return state.end_date
-    },
-    dates(_, {start_date, end_date_full}) {
-        return {start_date, end_date: end_date_full}
     },
 }
 
