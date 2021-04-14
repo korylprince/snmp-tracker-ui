@@ -82,6 +82,7 @@ export default {
             store.commit("loading/start_loading", "search")
             try {
                 const data = await $graphql.search_ip_address(query)
+                if (data == null) {return}
                 if (data.length === 0) {
                     store.commit("feedback/add_msg", {msg: "No results found. Try another search"})
                     back()
@@ -99,6 +100,7 @@ export default {
             store.commit("loading/start_loading", "search")
             try {
                 const data = await $graphql.search_mac_address(query)
+                if (data == null) {return}
                 if (data.length === 0) {
                     store.commit("feedback/add_msg", {msg: "No results found. Try another search"})
                     back()
@@ -114,7 +116,9 @@ export default {
         let hostname; let system; let vendor
         store.commit("loading/start_loading", "search")
         try {
-            ({hostname, system, vendor} = await $graphql.search(query))
+            const data = await $graphql.search(query)
+            if (data == null) {return}
+            ({hostname, system, vendor} = data)
         } finally {
             store.commit("loading/stop_loading", "search")
         }

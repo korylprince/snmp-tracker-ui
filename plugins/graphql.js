@@ -1,3 +1,5 @@
+const unauthorized = "Authentication hook unauthorized this request"
+
 const graphql = {
     store: null,
     gqlURL: null,
@@ -34,6 +36,12 @@ const graphql = {
 
         if (body.data != null) {
             return body.data
+        }
+
+        if (body.errors != null && body.errors.length > 0 && body.errors[0].message === unauthorized) {
+            const route = await this.store.dispatch("auth/sign_out")
+            this.store.$router.push(route)
+            return {}
         }
 
         throw body

@@ -82,6 +82,9 @@ export const actions = {
     sign_out({commit}, keep_route = true) {
         commit("sign_out")
         this.$cookies.remove("session")
+        if (keep_route) {
+            commit("feedback/add_msg", {msg: "Your session has expired. Please sign back in"}, {root: true})
+        }
         if (keep_route && this.$router.currentRoute.path !== "/sign_in" && this.$router.currentRoute.path !== "/") {
             return {path: "/sign_in", query: {next: this.$router.currentRoute.fullPath}}
         }
