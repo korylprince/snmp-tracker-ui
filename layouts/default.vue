@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <v-app :class="{mobile: $vuetify.breakpoint.xsOnly}">
         <v-app-bar color="primary" dense app>
             <v-container
                 fluid
@@ -77,6 +77,9 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.theme--dark.v-application.mobile
+    background-color: #1e1e1e
+
 .toolbar-title
     color: inherit
     cursor: pointer

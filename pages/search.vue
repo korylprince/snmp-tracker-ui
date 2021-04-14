@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card width="100%" max-width="600px" :elevation="$vuetify.breakpoint.xsOnly ? 0 : null">
         <v-card-title>
             Search Results
             <v-spacer />

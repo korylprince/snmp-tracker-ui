@@ -1,5 +1,5 @@
 <template>
-    <v-card width="100%" max-width="960px">
+    <v-card width="100%" max-width="960px" :elevation="$vuetify.breakpoint.xsOnly ? 0 : null">
         <v-card-title primary-title>
             Dashboard
             <v-spacer />

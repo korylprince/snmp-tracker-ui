@@ -1,10 +1,10 @@
 <template>
     <v-container fluid :pa-0="$vuetify.breakpoint.xsOnly">
-        <v-row justify="center">
+        <v-row justify="center" class="ma-0">
             <Error v-if="$fetchState.error" :error="$fetchState.error" />
 
             <v-skeleton-loader v-else-if="loading('port') || data == null" type="card-heading, image" width="100%" max-width="960px" />
-            <v-card v-else class="mx-auto" width="100%" max-width="960px">
+            <v-card v-else width="100%" max-width="960px" :elevation="$vuetify.breakpoint.xsOnly ? 0 : null">
                 <v-card-title>
                     <v-tooltip bottom>
                         <template #activator="{on}">
