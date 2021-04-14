@@ -49,7 +49,7 @@
                                 :search="port_query"
                                 :sort-desc="true"
                                 :must-sort="true"
-                                sort-by="journals[0].journal.time"
+                                sort-by="journals[0].time"
                             >
                                 <template #[`item.name`]="{item}">
                                     <NuxtLink :to="`/port/${item.id}`">
@@ -71,12 +71,12 @@
                                     {{ item.journals[0].speed | formatSpeed }}
                                 </template>
 
-                                <template #[`item.journals[0].journal.time`]="{item}">
+                                <template #[`item.journals[0].time`]="{item}">
                                     <v-tooltip v-if="item.journals.length >= 1" bottom>
                                         <template #activator="{on}">
-                                            <span v-on="on">{{ item.journals[0].journal.time | distance }}</span>
+                                            <span v-on="on">{{ item.journals[0].time | distance }}</span>
                                         </template>
-                                        <span>{{ item.journals[0].journal.time | formatted }}</span>
+                                        <span>{{ item.journals[0].time | formatted }}</span>
                                     </v-tooltip>
                                 </template>
                             </v-data-table>
@@ -100,7 +100,7 @@ export default {
                 {text: "MAC Address", value: "mac_address.mac_address"},
                 {text: "Status", value: "journals[0].status"},
                 {text: "Speed", value: "journals[0].speed"},
-                {text: "Last Seen", value: "journals[0].journal.time", filterable: false},
+                {text: "Last Seen", value: "journals[0].time", filterable: false},
             ],
             data: null,
         }

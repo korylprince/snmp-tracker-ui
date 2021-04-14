@@ -115,7 +115,7 @@ export default {
             if (this.data == null) {
                 return null
             }
-            return formatRelative(parseJSON(this.data.journal[0].time), new Date())
+            return formatRelative(parseJSON(this.data.mac_address_journal[0].time), new Date())
         },
     },
     watch: {

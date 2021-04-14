@@ -44,7 +44,7 @@
                                         :items="data.resolves"
                                         :headers="resolve_headers"
                                         :search="resolve_query"
-                                        sort-by="journals[0].journal.time"
+                                        sort-by="journals[0].time"
                                         :sort-desc="true"
                                         :must-sort="true"
                                         :mobile-breakpoint="0"
@@ -55,12 +55,12 @@
                                             </NuxtLink>
                                         </template>
 
-                                        <template #[`item.journals[0].journal.time`]="{item}">
+                                        <template #[`item.journals[0].time`]="{item}">
                                             <v-tooltip v-if="item.journals.length >= 1" bottom>
                                                 <template #activator="{on}">
-                                                    <span v-on="on">{{ item.journals[0].journal.time | distance }}</span>
+                                                    <span v-on="on">{{ item.journals[0].time | distance }}</span>
                                                 </template>
-                                                <span>{{ item.journals[0].journal.time | formatted }}</span>
+                                                <span>{{ item.journals[0].time | formatted }}</span>
                                             </v-tooltip>
                                         </template>
                                     </v-data-table>
@@ -119,7 +119,7 @@ export default {
             system_query: "",
             resolve_headers: [
                 {text: "IP Address", value: "ip_address.ip_address"},
-                {text: "Last Seen", value: "journals[0].journal.time", filterable: false},
+                {text: "Last Seen", value: "journals[0].time", filterable: false},
             ],
             system_headers: [
                 {text: "System", value: "name"},

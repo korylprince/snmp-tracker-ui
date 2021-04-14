@@ -70,7 +70,7 @@ const graphql = {
               count(columns: prefix)
             }
           }
-          journal(limit: 1, order_by: {time: desc}) {
+          mac_address_journal(limit: 1, order_by: {time: desc_nulls_last}) {
             time
           }
         }
@@ -82,15 +82,13 @@ const graphql = {
         query get_hostname($id: bigint!, $start_date: timestamp!, $end_date: timestamp!) {
           hostname_by_pk(id: $id) {
             hostname
-            resolves(where: {journals: {journal: {time: {_gte: $start_date, _lte: $end_date}}}}) {
+            resolves(where: {journals: {time: {_gte: $start_date, _lte: $end_date}}}) {
               ip_address {
                 id
                 ip_address
               }
-              journals(order_by: {journal: {time: desc}}, limit: 1, where: {journal: {time: {_gte: $start_date, _lte: $end_date}}}) {
-                journal {
-                  time
-                }
+              journals(order_by: {time: desc}, limit: 1, where: {time: {_gte: $start_date, _lte: $end_date}}) {
+                time
               }
             }
             systems {
@@ -108,26 +106,22 @@ const graphql = {
         query get_ip_address($id: bigint!, $start_date: timestamp!, $end_date: timestamp!) {
           ip_address_by_pk(id: $id) {
             ip_address
-            arps(where: {journals: {journal: {time: {_gte: $start_date, _lte: $end_date}}}}) {
+            arps(where: {journals: {time: {_gte: $start_date, _lte: $end_date}}}) {
               mac_address {
                 id
                 mac_address
               }
-              journals(order_by: {journal: {time: desc}}, limit: 1, where: {journal: {time: {_gte: $start_date, _lte: $end_date}}}) {
-                journal {
-                  time
-                }
+              journals(order_by: {time: desc}, limit: 1, where: {time: {_gte: $start_date, _lte: $end_date}}) {
+                time
               }
             }
-            resolves(where: {journals: {journal: {time: {_gte: $start_date, _lte: $end_date}}}}) {
+            resolves(where: {journals: {time: {_gte: $start_date, _lte: $end_date}}}) {
               hostname {
                 id
                 hostname
               }
-              journals(order_by: {journal: {time: desc}}, limit: 1, where: {journal: {time: {_gte: $start_date, _lte: $end_date}}}) {
-                journal {
-                  time
-                }
+              journals(order_by: {time: desc}, limit: 1, where: {time: {_gte: $start_date, _lte: $end_date}}) {
+                time
               }
             }
           }
@@ -147,7 +141,7 @@ const graphql = {
                 name
               }
             }
-            ports(where: {journals: {journal: {time: {_gte: $start_date, _lte: $end_date}}}}, order_by: {system: {name: asc}, number: asc, name: asc}) {
+            ports(where: {journals: {time: {_gte: $start_date, _lte: $end_date}}}, order_by: {system: {name: asc}, number: asc, name: asc}) {
               id
               system {
                 id
@@ -155,26 +149,22 @@ const graphql = {
               }
               name
               description
-              journals(where: {port: {mac_address: {id: {_eq: $id}}}, journal: {time: {_gte: $start_date, _lte: $end_date}}}, order_by: {journal: {time: desc}}, limit: 1) {
-                journal {
-                  time
-                }
+              journals(where: {port: {mac_address: {id: {_eq: $id}}}, time: {_gte: $start_date, _lte: $end_date}}, order_by: {time: desc}, limit: 1) {
                 status
                 speed
+                time
               }
             }
-            arps(where: {journals: {journal: {time: {_gte: $start_date, _lte: $end_date}}}}) {
+            arps(where: {journals: {time: {_gte: $start_date, _lte: $end_date}}}) {
               ip_address {
                 id
                 ip_address
               }
-              journals(order_by: {journal: {time: desc}}, limit: 1, where: {journal: {time: {_gte: $start_date, _lte: $end_date}}}) {
-                journal {
-                  time
-                }
+              journals(order_by: {time: desc}, limit: 1, where: {time: {_gte: $start_date, _lte: $end_date}}) {
+                time
               }
             }
-            journals(distinct_on: port_id, order_by: {port_id: asc, journal: {time: desc}, port: {system: {name: asc}, number: asc, name: asc}}, where: {journal: {time: {_gte: $start_date, _lte: $end_date}}}) {
+            journals(distinct_on: port_id, order_by: {port_id: asc, time: desc, port: {system: {name: asc}, number: asc, name: asc}}, where: {time: {_gte: $start_date, _lte: $end_date}}) {
               port {
                 id
                 system {
@@ -185,9 +175,7 @@ const graphql = {
                 description
               }
               vlan
-              journal {
-                time
-              }
+              time
             }
           }
         }
@@ -215,16 +203,14 @@ const graphql = {
                 }
               }
             }
-            mac_address_journals(distinct_on: mac_address_id, order_by: {mac_address_id: asc, journal: {time: desc}}, where: {journal: {time: {_gte: $start_date, _lte: $end_date}}}) {
+            mac_address_journals(distinct_on: mac_address_id, order_by: {mac_address_id: asc, time: desc}, where: {time: {_gte: $start_date, _lte: $end_date}}) {
               mac_address {
                 id
                 mac_address
               }
-              journal {
-                time
-              }
+              time
             }
-            local_lldps(order_by: {remote_port: {system: {name: asc}, number: asc, name: asc}}, where: {journals: {journal: {time: {_gte: $start_date, _lte: $end_date}}}}) {
+            local_lldps(order_by: {remote_port: {system: {name: asc}, number: asc, name: asc}}, where: {journals: {time: {_gte: $start_date, _lte: $end_date}}}) {
               remote_port {
                 id
                 system {
@@ -238,13 +224,11 @@ const graphql = {
                   mac_address
                 }
               }
-              journals(order_by: {journal: {time: desc}}, limit: 1, where: {journal: {time: {_gte: $start_date, _lte: $end_date}}}) {
-                journal {
-                  time
-                }
+              journals(order_by: {time: desc}, limit: 1, where: {time: {_gte: $start_date, _lte: $end_date}}) {
+                time
               }
             }
-            remote_lldps(order_by: {local_port: {system: {name: asc}, number: asc, name: asc}}, where: {journals: {journal: {time: {_gte: $start_date, _lte: $end_date}}}}) {
+            remote_lldps(order_by: {local_port: {system: {name: asc}, number: asc, name: asc}}, where: {journals: {time: {_gte: $start_date, _lte: $end_date}}}) {
               local_port {
                 id
                 system {
@@ -258,18 +242,14 @@ const graphql = {
                   mac_address
                 }
               }
-              journals(order_by: {journal: {time: desc}}, limit: 1, where: {journal: {time: {_gte: $start_date, _lte: $end_date}}}) {
-                journal {
-                  time
-                }
-              }
-            }
-            journals(distinct_on: [status, speed], order_by: {status: asc, speed: asc, journal: {time: desc}}, where: {journal: {time: {_gte: $start_date, _lte: $end_date}}}) {
-              status
-              speed
-              journal {
+              journals(order_by: {time: desc}, limit: 1, where: {time: {_gte: $start_date, _lte: $end_date}}) {
                 time
               }
+            }
+            journals(distinct_on: [status, speed], order_by: {status: asc, speed: asc, time: desc}, where: {time: {_gte: $start_date, _lte: $end_date}}) {
+              status
+              speed
+              time
             }
           }
         }
@@ -286,7 +266,7 @@ const graphql = {
               id
               hostname
             }
-            ports(order_by: {number: asc, name: asc}, where: {journals: {journal: {time: {_gte: $start_date, _lte: $end_date}}}}) {
+            ports(order_by: {number: asc, name: asc}, where: {journals: {time: {_gte: $start_date, _lte: $end_date}}}) {
               id
               name
               description
@@ -294,12 +274,10 @@ const graphql = {
                 id
                 mac_address
               }
-              journals(limit: 1, order_by: {journal: {time: desc}}, where: {journal: {time: {_gte: $start_date, _lte: $end_date}}}) {
-                journal {
-                  time
-                }
+              journals(limit: 1, order_by: {time: desc}, where: {time: {_gte: $start_date, _lte: $end_date}}) {
                 status
                 speed
+                time
               }
             }
           }
@@ -317,10 +295,8 @@ const graphql = {
               mac_address {
                 id
                 mac_address
-                journals(limit: 1, order_by: {journal: {time: desc}}, where: {journal: {time: {_gte: $start_date, _lte: $end_date}}}) {
-                  journal {
-                    time
-                  }
+                journals(limit: 1, order_by: {time: desc}, where: {time: {_gte: $start_date, _lte: $end_date}}) {
+                  time
                 }
               }
             }
@@ -334,7 +310,7 @@ const graphql = {
     },
     search_query: `
         query search($search: String!, $start_date: timestamp!, $end_date: timestamp!) {
-          hostname(where: {hostname: {_ilike: $search}, resolves: {journals: {journal: {time: {_gte: $start_date, _lte: $end_date}}}}}) {
+          hostname(where: {hostname: {_ilike: $search}, resolves: {journals: {time: {_gte: $start_date, _lte: $end_date}}}}) {
             id
             hostname
           }
@@ -352,7 +328,7 @@ const graphql = {
     },
     search_mac_address_query: `
         query search($search: String!, $start_date: timestamp!, $end_date: timestamp!) {
-          mac_address(where: {mac_address: {_eq: $search}, journals: {journal: {time: {_gte: $start_date, _lte: $end_date}}}}) {
+          mac_address(where: {mac_address: {_eq: $search}, journals: {time: {_gte: $start_date, _lte: $end_date}}}) {
             id
           }
         }
@@ -362,7 +338,7 @@ const graphql = {
     },
     search_ip_address_query: `
         query search($search: String!, $start_date: timestamp!, $end_date: timestamp!) {
-          ip_address(where: {ip_address: {_eq: $search}, _or: [{arps: {journals: {journal: {time: {_gte: $start_date, _lte: $end_date}}}}}, {resolves: {journals: {journal: {time: {_gte: $start_date, _lte: $end_date}}}}}]}) {
+          ip_address(where: {ip_address: {_eq: $search}, _or: [{arps: {journals: {time: {_gte: $start_date, _lte: $end_date}}}}, {resolves: {journals: {time: {_gte: $start_date, _lte: $end_date}}}}]}) {
             id
           }
         }

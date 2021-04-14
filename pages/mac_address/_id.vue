@@ -50,7 +50,7 @@
                                 :search="port_query"
                                 :sort-desc="true"
                                 :must-sort="true"
-                                sort-by="journals[0].journal.time"
+                                sort-by="journals[0].time"
                             >
                                 <template #[`item.system.name`]="{item}">
                                     <NuxtLink :to="`/system/${item.system.id}`">
@@ -72,12 +72,12 @@
                                     {{ item.journals[0].speed | formatSpeed }}
                                 </template>
 
-                                <template #[`item.journals[0].journal.time`]="{item}">
+                                <template #[`item.journals[0].time`]="{item}">
                                     <v-tooltip v-if="item.journals.length >= 1" bottom>
                                         <template #activator="{on}">
-                                            <span v-on="on">{{ item.journals[0].journal.time | distance }}</span>
+                                            <span v-on="on">{{ item.journals[0].time | distance }}</span>
                                         </template>
-                                        <span>{{ item.journals[0].journal.time | formatted }}</span>
+                                        <span>{{ item.journals[0].time | formatted }}</span>
                                     </v-tooltip>
                                 </template>
                             </v-data-table>
@@ -104,7 +104,7 @@
                                 :items="data.arps"
                                 :headers="arp_headers"
                                 :search="arp_query"
-                                sort-by="journals[0].journal.time"
+                                sort-by="journals[0].time"
                                 :sort-desc="true"
                                 :must-sort="true"
                                 :mobile-breakpoint="0"
@@ -115,12 +115,12 @@
                                     </NuxtLink>
                                 </template>
 
-                                <template #[`item.journals[0].journal.time`]="{item}">
+                                <template #[`item.journals[0].time`]="{item}">
                                     <v-tooltip v-if="item.journals.length >= 1" bottom>
                                         <template #activator="{on}">
-                                            <span v-on="on">{{ item.journals[0].journal.time | distance }}</span>
+                                            <span v-on="on">{{ item.journals[0].time | distance }}</span>
                                         </template>
-                                        <span>{{ item.journals[0].journal.time | formatted }}</span>
+                                        <span>{{ item.journals[0].time | formatted }}</span>
                                     </v-tooltip>
                                 </template>
                             </v-data-table>
@@ -147,7 +147,7 @@
                                 :items="data.journals"
                                 :headers="journal_headers"
                                 :search="journal_query"
-                                sort-by="journal.time"
+                                sort-by="time"
                                 :sort-desc="true"
                                 :must-sort="true"
                             >
@@ -163,12 +163,12 @@
                                     </NuxtLink>
                                 </template>
 
-                                <template #[`item.journal.time`]="{item}">
-                                    <v-tooltip v-if="item.journal" bottom>
+                                <template #[`item.time`]="{item}">
+                                    <v-tooltip bottom>
                                         <template #activator="{on}">
-                                            <span v-on="on">{{ item.journal.time | distance }}</span>
+                                            <span v-on="on">{{ item.time | distance }}</span>
                                         </template>
-                                        <span>{{ item.journal.time | formatted }}</span>
+                                        <span>{{ item.time | formatted }}</span>
                                     </v-tooltip>
                                 </template>
                             </v-data-table>
@@ -194,18 +194,18 @@ export default {
                 {text: "Description", value: "description"},
                 {text: "Status", value: "journals[0].status"},
                 {text: "Speed", value: "journals[0].speed"},
-                {text: "Last Seen", value: "journals[0].journal.time", filterable: false},
+                {text: "Last Seen", value: "journals[0].time", filterable: false},
             ],
             arp_headers: [
                 {text: "IP Address", value: "ip_address.ip_address"},
-                {text: "Last Seen", value: "journals[0].journal.time", filterable: false},
+                {text: "Last Seen", value: "journals[0].time", filterable: false},
             ],
             journal_headers: [
                 {text: "System", value: "port.system.name"},
                 {text: "Port", value: "port.name"},
                 {text: "Description", value: "port.description"},
                 {text: "VLAN", value: "vlan"},
-                {text: "Last Seen", value: "journal.time", filterable: false},
+                {text: "Last Seen", value: "time", filterable: false},
             ],
             data: null,
         }

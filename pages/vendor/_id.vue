@@ -45,7 +45,7 @@
                                 :items="data.mac_addresses"
                                 :headers="mac_address_headers"
                                 :search="mac_address_query"
-                                sort-by="mac_address.journals[0].journal.time"
+                                sort-by="mac_address.journals[0].time"
                                 :sort-desc="true"
                                 :must-sort="true"
                                 :mobile-breakpoint="0"
@@ -56,12 +56,12 @@
                                     </NuxtLink>
                                 </template>
 
-                                <template #[`item.mac_address.journals[0].journal.time`]="{item}">
+                                <template #[`item.mac_address.journals[0].time`]="{item}">
                                     <v-tooltip v-if="item.mac_address.journals.length >= 1" bottom>
                                         <template #activator="{on}">
-                                            <span v-on="on">{{ item.mac_address.journals[0].journal.time | distance }}</span>
+                                            <span v-on="on">{{ item.mac_address.journals[0].time | distance }}</span>
                                         </template>
-                                        <span>{{ item.mac_address.journals[0].journal.time | formatted }}</span>
+                                        <span>{{ item.mac_address.journals[0].time | formatted }}</span>
                                     </v-tooltip>
                                 </template>
                             </v-data-table>
@@ -81,7 +81,7 @@ export default {
             mac_address_query: "",
             mac_address_headers: [
                 {text: "MAC Address", value: "mac_address.mac_address"},
-                {text: "Last Seen", value: "mac_address.journals[0].journal.time", filterable: false},
+                {text: "Last Seen", value: "mac_address.journals[0].time", filterable: false},
             ],
             data: null,
         }

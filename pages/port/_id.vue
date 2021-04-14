@@ -59,7 +59,7 @@
                                         :items="data.mac_address_journals"
                                         :headers="mac_address_headers"
                                         :search="mac_address_query"
-                                        sort-by="journal.time"
+                                        sort-by="time"
                                         :sort-desc="true"
                                         :must-sort="true"
                                         :mobile-breakpoint="0"
@@ -70,12 +70,12 @@
                                             </NuxtLink>
                                         </template>
 
-                                        <template #[`item.journal.time`]="{item}">
-                                            <v-tooltip v-if="item.journal" bottom>
+                                        <template #[`item.time`]="{item}">
+                                            <v-tooltip bottom>
                                                 <template #activator="{on}">
-                                                    <span v-on="on">{{ item.journal.time | distance }}</span>
+                                                    <span v-on="on">{{ item.time | distance }}</span>
                                                 </template>
-                                                <span>{{ item.journal.time | formatted }}</span>
+                                                <span>{{ item.time | formatted }}</span>
                                             </v-tooltip>
                                         </template>
                                     </v-data-table>
@@ -104,7 +104,7 @@
                                         :items="data.journals"
                                         :headers="status_headers"
                                         :search="status_query"
-                                        sort-by="journal.time"
+                                        sort-by="time"
                                         :sort-desc="true"
                                         :must-sort="true"
                                         :mobile-breakpoint="0"
@@ -117,12 +117,12 @@
                                             {{ item.speed | formatSpeed }}
                                         </template>
 
-                                        <template #[`item.journal.time`]="{item}">
-                                            <v-tooltip v-if="item.journal" bottom>
+                                        <template #[`item.time`]="{item}">
+                                            <v-tooltip bottom>
                                                 <template #activator="{on}">
-                                                    <span v-on="on">{{ item.journal.time | distance }}</span>
+                                                    <span v-on="on">{{ item.time | distance }}</span>
                                                 </template>
-                                                <span>{{ item.journal.time | formatted }}</span>
+                                                <span>{{ item.time | formatted }}</span>
                                             </v-tooltip>
                                         </template>
                                     </v-data-table>
@@ -155,7 +155,7 @@
                                         :search="lldp_query"
                                         :sort-desc="true"
                                         :must-sort="true"
-                                        sort-by=".journal.time"
+                                        sort-by="time"
                                     >
                                         <template #[`item.system.name`]="{item}">
                                             <NuxtLink :to="`/system/${item.system.id}`">
@@ -175,12 +175,12 @@
                                             </NuxtLink>
                                         </template>
 
-                                        <template #[`item.journal.time`]="{item}">
-                                            <v-tooltip v-if="item.journal" bottom>
+                                        <template #[`item.time`]="{item}">
+                                            <v-tooltip bottom>
                                                 <template #activator="{on}">
-                                                    <span v-on="on">{{ item.journal.time | distance }}</span>
+                                                    <span v-on="on">{{ item.time | distance }}</span>
                                                 </template>
-                                                <span>{{ item.journal.time | formatted }}</span>
+                                                <span>{{ item.time | formatted }}</span>
                                             </v-tooltip>
                                         </template>
                                     </v-data-table>
@@ -204,19 +204,19 @@ export default {
             lldp_query: "",
             mac_address_headers: [
                 {text: "MAC Address", value: "mac_address.mac_address"},
-                {text: "Last Seen", value: "journal.time", filterable: false},
+                {text: "Last Seen", value: "time", filterable: false},
             ],
             status_headers: [
                 {text: "Status", value: "status"},
                 {text: "Speed", value: "speed"},
-                {text: "Last Seen", value: "journal.time", filterable: false},
+                {text: "Last Seen", value: "time", filterable: false},
             ],
             lldp_headers: [
                 {text: "System", value: "system.name"},
                 {text: "Port", value: "name"},
                 {text: "Description", value: "description"},
                 {text: "MAC Address", value: "mac_address.mac_address"},
-                {text: "Last Seen", value: "journal.time", filterable: false},
+                {text: "Last Seen", value: "time", filterable: false},
             ],
             data: null,
         }
@@ -256,7 +256,7 @@ export default {
                     continue
                 }
                 if (n.journals.length > 0) {
-                    n.remote_port.journal = n.journals[0].journal
+                    n.remote_port.time = n.journals[0].time
                 }
                 neighbors.push(n.remote_port)
                 seen.add(n.remote_port.id)
@@ -266,7 +266,7 @@ export default {
                     continue
                 }
                 if (n.journals.length > 0) {
-                    n.local_port.journal = n.journals[0].journal
+                    n.local_port.time = n.journals[0].time
                 }
                 neighbors.push(n.local_port)
                 seen.add(n.local_port.id)
