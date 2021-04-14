@@ -160,6 +160,7 @@ export default {
         }
         return {title: `Search - ${this.$route.query.query}`}
     },
+    watchQuery: ["query"],
 }
 </script>
 
