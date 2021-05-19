@@ -78,7 +78,7 @@ const graphql = {
               count(columns: prefix)
             }
           }
-          mac_address_journal(limit: 1, order_by: {time: desc_nulls_last}) {
+          mac_address_journal(limit: 1, order_by: {time: desc}) {
             time
           }
         }
